@@ -462,6 +462,9 @@ enum VideoEventType {
   /// Picture in picture mode has been dismissed
   pipStop,
 
+  /// Picture in picture mode has been dismissed
+  skipforward,
+
   /// An unknown event has been received.
   unknown,
 }

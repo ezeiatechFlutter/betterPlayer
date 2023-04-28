@@ -33,6 +33,7 @@ class VideoPlayerValue {
     this.speed = 1.0,
     this.errorDescription,
     this.isPip = false,
+    this.skipForward,
   });
 
   /// Returns an instance with a `null` [Duration].
@@ -47,6 +48,8 @@ class VideoPlayerValue {
   ///
   /// Is null when [initialized] is false.
   final Duration? duration;
+
+  final Duration? skipForward;
 
   /// The current playback position.
   final Duration position;
@@ -122,6 +125,7 @@ class VideoPlayerValue {
     String? errorDescription,
     double? speed,
     bool? isPip,
+    Duration? skipFowward,
   }) {
     return VideoPlayerValue(
       duration: duration ?? this.duration,
@@ -136,6 +140,7 @@ class VideoPlayerValue {
       speed: speed ?? this.speed,
       errorDescription: errorDescription ?? this.errorDescription,
       isPip: isPip ?? this.isPip,
+      skipForward: duration ?? this.duration,
     );
   }
 
@@ -251,6 +256,9 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
           break;
         case VideoEventType.pipStop:
           value = value.copyWith(isPip: false);
+          break;
+        case VideoEventType.skipforward:
+          value = value.copyWith(skipFowward: value.duration);
           break;
         case VideoEventType.unknown:
           break;

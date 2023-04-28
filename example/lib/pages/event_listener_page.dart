@@ -19,6 +19,8 @@ class _EventListenerPageState extends State<EventListenerPage> {
   void initState() {
     BetterPlayerConfiguration betterPlayerConfiguration =
         BetterPlayerConfiguration(
+      controlsConfiguration: BetterPlayerControlsConfiguration(
+          forwardSkipTimeInMilliseconds: 30000),
       aspectRatio: 16 / 9,
       fit: BoxFit.contain,
     );
@@ -74,14 +76,21 @@ class _EventListenerPageState extends State<EventListenerPage> {
                 return ListView(
                   children: events
                       .map(
-                        (event) => Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Event: ${event.betterPlayerEventType} "
-                                "parameters: ${(event.parameters ?? <String, dynamic>{}).toString()}"),
-                            Divider(),
-                          ],
-                        ),
+                        (event) => (event.betterPlayerEventType ==
+                                    BetterPlayerEventType.skipForward ||
+                                event.betterPlayerEventType ==
+                                    BetterPlayerEventType.skipBackward ||
+                                event.betterPlayerEventType ==
+                                    BetterPlayerEventType.seekTo)
+                            ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Event: ${event.betterPlayerEventType} "
+                                      "parameters: ${(event.parameters ?? <String, dynamic>{}).toString()}"),
+                                  Divider(),
+                                ],
+                              )
+                            : Container(),
                       )
                       .toList(),
                 );

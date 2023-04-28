@@ -40,6 +40,13 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget>
                   milliseconds: betterPlayerControlsConfiguration
                       .backwardSkipTimeInMilliseconds))
           .inMilliseconds;
+
+      final beginningPosition = latestValue!.position;
+      final skipPosition = (latestValue!.position +
+          Duration(
+              milliseconds: betterPlayerControlsConfiguration
+                  .backwardSkipTimeInMilliseconds));
+      skipBackwardEvent(beginningPosition, skipPosition);
       betterPlayerController!
           .seekTo(Duration(milliseconds: max(skip, beginning)));
     }
@@ -48,12 +55,20 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget>
   void skipForward() {
     if (latestValue != null) {
       cancelAndRestartTimer();
+
       final end = latestValue!.duration!.inMilliseconds;
       final skip = (latestValue!.position +
               Duration(
                   milliseconds: betterPlayerControlsConfiguration
                       .forwardSkipTimeInMilliseconds))
           .inMilliseconds;
+      final endPosition = latestValue!.position;
+      final skipPosition = (latestValue!.position +
+          Duration(
+              milliseconds: betterPlayerControlsConfiguration
+                  .forwardSkipTimeInMilliseconds));
+      skipForwardEvent(endPosition, skipPosition);
+
       betterPlayerController!.seekTo(Duration(milliseconds: min(skip, end)));
     }
   }
@@ -525,6 +540,32 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget>
             BetterPlayerEvent(BetterPlayerEventType.controlsHiddenStart));
       }
       controlsNotVisible = notVisible;
+    });
+  }
+
+  ///Called when video is skipped forward
+  void skipForwardEvent(Duration endPosition, Duration skipPosition) {
+    setState(() {
+      betterPlayerController?.postEvent(BetterPlayerEvent(
+        BetterPlayerEventType.skipForward,
+        parameters: <String, dynamic>{
+          "endPosition": endPosition,
+          "skipPosition": skipPosition
+        },
+      ));
+    });
+  }
+
+  ///Called when video is skipped backward
+  void skipBackwardEvent(Duration beginningPosition, Duration skipPosition) {
+    setState(() {
+      betterPlayerController?.postEvent(BetterPlayerEvent(
+        BetterPlayerEventType.skipBackward,
+        parameters: <String, dynamic>{
+          "beginningPosition": beginningPosition,
+          "skipPosition": skipPosition
+        },
+      ));
     });
   }
 }
