@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:better_player/src/configuration/better_player_controls_configuration.dart';
+import 'package:better_player/src/configuration/better_player_event.dart';
+import 'package:better_player/src/configuration/better_player_event_type.dart';
 import 'package:better_player/src/controls/better_player_controls_state.dart';
 import 'package:better_player/src/controls/better_player_cupertino_progress_bar.dart';
 import 'package:better_player/src/controls/better_player_multiple_gesture_detector.dart';
@@ -630,9 +632,19 @@ class _BetterPlayerCupertinoControlsState
           _betterPlayerController,
           onDragStart: () {
             _hideTimer?.cancel();
+            _betterPlayerController?.postDragEvents(BetterPlayerEvent(
+                BetterPlayerEventType.progresssBarDragStart,
+                parameters: <String, dynamic>{
+                  "duration": _controller?.value.position,
+                }));
           },
           onDragEnd: () {
             _startHideTimer();
+            _betterPlayerController?.postDragEvents(BetterPlayerEvent(
+                BetterPlayerEventType.progresssBarDragEnd,
+                parameters: <String, dynamic>{
+                  "duration": _controller?.value.position,
+                }));
           },
           onTapDown: () {
             cancelAndRestartTimer();
