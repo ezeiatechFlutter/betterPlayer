@@ -14,6 +14,7 @@ import 'package:path_provider/path_provider.dart';
 ///Class used to control overall Better Player behavior. Main class to change
 ///state of Better Player.
 class BetterPlayerController {
+  static const String _durationParameterSeekFrom = "seekFrom";
   static const String _durationParameter = "duration";
   static const String _progressParameter = "progress";
   static const String _bufferedParameter = "buffered";
@@ -653,9 +654,12 @@ class BetterPlayerController {
     }
 
     await videoPlayerController!.seekTo(moment);
-
+    Duration seekFrom = await videoPlayerController?.position ?? moment;
     _postEvent(BetterPlayerEvent(BetterPlayerEventType.seekTo,
-        parameters: <String, dynamic>{_durationParameter: moment}));
+        parameters: <String, dynamic>{
+          _durationParameter: moment,
+          _durationParameterSeekFrom: seekFrom
+        }));
 
     final Duration? currentDuration = videoPlayerController!.value.duration;
     if (currentDuration == null) {
@@ -745,6 +749,11 @@ class BetterPlayerController {
 
   ///Send player event. Shouldn't be used manually.
   void postEvent(BetterPlayerEvent betterPlayerEvent) {
+    _postEvent(betterPlayerEvent);
+  }
+
+  ///Send player event. Shouldn't be used manually.
+  void postDragEvents(BetterPlayerEvent betterPlayerEvent) {
     _postEvent(betterPlayerEvent);
   }
 

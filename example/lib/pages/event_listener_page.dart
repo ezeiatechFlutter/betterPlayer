@@ -20,7 +20,7 @@ class _EventListenerPageState extends State<EventListenerPage> {
     BetterPlayerConfiguration betterPlayerConfiguration =
         BetterPlayerConfiguration(
       controlsConfiguration: BetterPlayerControlsConfiguration(
-          forwardSkipTimeInMilliseconds: 30000),
+          enableProgressBarDrag: true, forwardSkipTimeInMilliseconds: 30000),
       aspectRatio: 16 / 9,
       fit: BoxFit.contain,
     );
@@ -75,23 +75,14 @@ class _EventListenerPageState extends State<EventListenerPage> {
               builder: (context, snapshot) {
                 return ListView(
                   children: events
-                      .map(
-                        (event) => (event.betterPlayerEventType ==
-                                    BetterPlayerEventType.skipForward ||
-                                event.betterPlayerEventType ==
-                                    BetterPlayerEventType.skipBackward ||
-                                event.betterPlayerEventType ==
-                                    BetterPlayerEventType.seekTo)
-                            ? Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("Event: ${event.betterPlayerEventType} "
-                                      "parameters: ${(event.parameters ?? <String, dynamic>{}).toString()}"),
-                                  Divider(),
-                                ],
-                              )
-                            : Container(),
-                      )
+                      .map((event) => Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Event: ${event.betterPlayerEventType} "
+                                  "parameters: ${(event.parameters ?? <String, dynamic>{}).toString()}"),
+                              Divider(),
+                            ],
+                          ))
                       .toList(),
                 );
               },

@@ -27,4 +27,6 @@ enum BetterPlayerEventType {
   changedPlaylistItem,
   skipForward,
   skipBackward,
+  progresssBarDragStart,
+  progresssBarDragEnd,
 }

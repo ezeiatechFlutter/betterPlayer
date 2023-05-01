@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:better_player/better_player.dart';
 import 'package:better_player/src/configuration/better_player_controls_configuration.dart';
 import 'package:better_player/src/controls/better_player_clickable_widget.dart';
 import 'package:better_player/src/controls/better_player_controls_state.dart';
@@ -705,9 +706,19 @@ class _BetterPlayerMaterialControlsState
           _betterPlayerController,
           onDragStart: () {
             _hideTimer?.cancel();
+            _betterPlayerController?.postDragEvents(BetterPlayerEvent(
+                BetterPlayerEventType.progresssBarDragStart,
+                parameters: <String, dynamic>{
+                  "duration": _controller?.value.position,
+                }));
           },
           onDragEnd: () {
             _startHideTimer();
+            _betterPlayerController?.postDragEvents(BetterPlayerEvent(
+                BetterPlayerEventType.progresssBarDragEnd,
+                parameters: <String, dynamic>{
+                  "duration": _controller?.value.position,
+                }));
           },
           onTapDown: () {
             cancelAndRestartTimer();

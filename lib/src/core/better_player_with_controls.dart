@@ -182,7 +182,6 @@ class _BetterPlayerWithControlsState extends State<BetterPlayerWithControls> {
         return _buildCupertinoControl();
       }
     }
-
     return const SizedBox();
   }
 
