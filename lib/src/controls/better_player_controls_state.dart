@@ -42,7 +42,7 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget>
           .inMilliseconds;
 
       final beginningPosition = latestValue!.position;
-      final skipPosition = (latestValue!.position +
+      final skipPosition = (latestValue!.position -
           Duration(
               milliseconds: betterPlayerControlsConfiguration
                   .backwardSkipTimeInMilliseconds));
