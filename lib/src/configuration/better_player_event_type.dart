@@ -1,4 +1,4 @@
-///Supported event types
+////Supported event types
 enum BetterPlayerEventType {
   initialized,
   play,
