@@ -165,9 +165,9 @@ void main() {
         );
 
         expect(betterPlayerMockController.isFullScreen, false);
-        betterPlayerMockController.toggleFullScreen();
+        betterPlayerMockController.toggleFullScreen(null);
         expect(betterPlayerMockController.isFullScreen, true);
-        betterPlayerMockController.toggleFullScreen();
+        betterPlayerMockController.toggleFullScreen(null);
         expect(betterPlayerMockController.isFullScreen, false);
       });
 
