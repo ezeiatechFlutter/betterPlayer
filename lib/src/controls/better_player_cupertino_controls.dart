@@ -248,7 +248,7 @@ class _BetterPlayerCupertinoControlsState
     double buttonPadding,
   ) {
     return GestureDetector(
-      onTap: _onExpandCollapse,
+     onTap: ()=> (_controlsConfiguration.fullscreenHandler != null)? _controlsConfiguration.fullscreenHandler!(isFullScreen: _betterPlayerController!.isFullScreen) : _onExpandCollapse(),
       child: AnimatedOpacity(
         opacity: controlsNotVisible ? 0.0 : 1.0,
         duration: _controlsConfiguration.controlsHideTime,
@@ -615,11 +615,11 @@ class _BetterPlayerCupertinoControlsState
 
   void _onExpandCollapse() {
     changePlayerControlsNotVisible(true);
-    _betterPlayerController!.toggleFullScreen();
-    _expandCollapseTimer = Timer(_controlsConfiguration.controlsHideTime, () {
-      setState(() {
-        cancelAndRestartTimer();
-      });
+    _betterPlayerController!.toggleFullScreen(null);
+     _expandCollapseTimer = Timer(_controlsConfiguration.controlsHideTime, () {
+       setState(() {
+         cancelAndRestartTimer();
+       });
     });
   }
 

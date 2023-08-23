@@ -338,7 +338,7 @@ class _BetterPlayerMaterialControlsState
     return Padding(
       padding: EdgeInsets.only(right: 12.0),
       child: BetterPlayerMaterialClickableWidget(
-        onTap: _onExpandCollapse,
+        onTap: ()=> (_controlsConfiguration.fullscreenHandler != null)? _controlsConfiguration.fullscreenHandler!(isFullScreen: _betterPlayerController?.isFullScreen??false) : _onExpandCollapse(),
         child: AnimatedOpacity(
           opacity: controlsNotVisible ? 0.0 : 1.0,
           duration: _controlsConfiguration.controlsHideTime,
@@ -635,13 +635,18 @@ class _BetterPlayerMaterialControlsState
 
   void _onExpandCollapse() {
     changePlayerControlsNotVisible(true);
-    _betterPlayerController!.toggleFullScreen();
-    _showAfterExpandCollapseTimer =
-        Timer(_controlsConfiguration.controlsHideTime, () {
-      setState(() {
-        cancelAndRestartTimer();
-      });
-    });
+   // _betterPlayerController!.toggleFullScreen(null);
+    if(_betterPlayerController?.isFullScreen??false){
+      _betterPlayerController?.exitFullScreen();
+    }else {
+      _betterPlayerController?.enterFullScreen();
+    }
+     _showAfterExpandCollapseTimer =
+         Timer(_controlsConfiguration.controlsHideTime, () {
+       setState(() {
+         cancelAndRestartTimer();
+       });
+     });
   }
 
   void _onPlayPause() {

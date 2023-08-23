@@ -33,6 +33,8 @@ class BetterPlayerControlsConfiguration {
   ///Icon of fullscreen mode disable
   final IconData fullscreenDisableIcon;
 
+  final Function({required bool isFullScreen})? fullscreenHandler;
+
   ///Cupertino only icon, icon of skip
   final IconData skipBackIcon;
 
@@ -174,6 +176,7 @@ class BetterPlayerControlsConfiguration {
     this.skipBackIcon = Icons.replay_10_outlined,
     this.skipForwardIcon = Icons.forward_10_outlined,
     this.enableFullscreen = true,
+    this.fullscreenHandler = null,
     this.enableMute = true,
     this.enableProgressText = true,
     this.enableProgressBar = true,

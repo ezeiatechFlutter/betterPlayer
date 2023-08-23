@@ -59,10 +59,12 @@ class BetterPlayerController {
       betterPlayerConfiguration.eventListener;
 
   ///Flag used to store full screen mode state.
-  bool _isFullScreen = false;
+  bool isFullScreen = false;
 
   ///Flag used to store full screen mode state.
-  bool get isFullScreen => _isFullScreen;
+  //bool get isFullScreen => _isFullScreen;
+
+
 
   ///Time when last progress event was sent
   int _lastPositionSelection = 0;
@@ -581,7 +583,7 @@ class BetterPlayerController {
 
   ///Method which is invoked when full screen changes.
   Future<void> _onFullScreenStateChanged() async {
-    if (videoPlayerController?.value.isPlaying == true && !_isFullScreen) {
+    if (videoPlayerController?.value.isPlaying == true && !isFullScreen) {
       enterFullScreen();
       videoPlayerController?.removeListener(_onFullScreenStateChanged);
     }
@@ -589,23 +591,32 @@ class BetterPlayerController {
 
   ///Enables full screen mode in player. This will trigger route change.
   void enterFullScreen() {
-    _isFullScreen = true;
+    isFullScreen = true;
     _postControllerEvent(BetterPlayerControllerEvent.openFullscreen);
   }
 
   ///Disables full screen mode in player. This will trigger route change.
   void exitFullScreen() {
-    _isFullScreen = false;
+    isFullScreen = false;
     _postControllerEvent(BetterPlayerControllerEvent.hideFullscreen);
   }
 
+
+
+
   ///Enables/disables full screen mode based on current fullscreen state.
-  void toggleFullScreen() {
-    _isFullScreen = !_isFullScreen;
-    if (_isFullScreen) {
-      _postControllerEvent(BetterPlayerControllerEvent.openFullscreen);
+  void toggleFullScreen(bool? isFullScreen) {
+    if(isFullScreen != null){
+      isFullScreen = isFullScreen;
+    }else {
+      isFullScreen = !(isFullScreen??false);
+    }
+    if (isFullScreen) {
+     // _postControllerEvent(BetterPlayerControllerEvent.openFullscreen);
+      enterFullScreen();
     } else {
-      _postControllerEvent(BetterPlayerControllerEvent.hideFullscreen);
+     // _postControllerEvent(BetterPlayerControllerEvent.hideFullscreen);
+      exitFullScreen();
     }
   }
 
@@ -1073,11 +1084,11 @@ class BetterPlayerController {
         (await videoPlayerController!.isPictureInPictureSupported()) ?? false;
 
     if (isPipSupported) {
-      _wasInFullScreenBeforePiP = _isFullScreen;
+      _wasInFullScreenBeforePiP = isFullScreen;
       _wasControlsEnabledBeforePiP = _controlsEnabled;
       setControlsEnabled(false);
       if (Platform.isAndroid) {
-        _wasInFullScreenBeforePiP = _isFullScreen;
+        _wasInFullScreenBeforePiP = isFullScreen;
         await videoPlayerController?.enablePictureInPicture(
             left: 0, top: 0, width: 0, height: 0);
         enterFullScreen();
@@ -1134,7 +1145,7 @@ class BetterPlayerController {
     final bool isPipSupported =
         (await videoPlayerController!.isPictureInPictureSupported()) ?? false;
 
-    return isPipSupported && !_isFullScreen;
+    return isPipSupported && !isFullScreen;
   }
 
   ///Handle VideoEvent when remote controls notification / PiP is shown

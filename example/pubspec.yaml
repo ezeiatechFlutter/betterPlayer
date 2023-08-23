@@ -16,6 +16,10 @@ dependencies:
   path_provider: ^2.0.10
   visibility_detector: ^0.3.3
   collection: ^1.16.0
+  # switch orientation
+  auto_orientation: 2.3.1
+  # listen to orientation
+  native_device_orientation: ^1.1.4
 
 dev_dependencies:
   flutter_test:
