@@ -635,12 +635,8 @@ class _BetterPlayerMaterialControlsState
 
   void _onExpandCollapse() {
     changePlayerControlsNotVisible(true);
-   // _betterPlayerController!.toggleFullScreen(null);
-    if(_betterPlayerController?.isFullScreen??false){
-      _betterPlayerController?.exitFullScreen();
-    }else {
-      _betterPlayerController?.enterFullScreen();
-    }
+    _betterPlayerController!.toggleFullScreen(null);
+
      _showAfterExpandCollapseTimer =
          Timer(_controlsConfiguration.controlsHideTime, () {
        setState(() {

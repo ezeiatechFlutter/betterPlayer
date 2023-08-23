@@ -612,11 +612,11 @@ class BetterPlayerController {
       isFullScreen = !(isFullScreen??false);
     }
     if (isFullScreen) {
-     // _postControllerEvent(BetterPlayerControllerEvent.openFullscreen);
-      enterFullScreen();
+      _postControllerEvent(BetterPlayerControllerEvent.openFullscreen);
+
     } else {
-     // _postControllerEvent(BetterPlayerControllerEvent.hideFullscreen);
-      exitFullScreen();
+      _postControllerEvent(BetterPlayerControllerEvent.hideFullscreen);
+
     }
   }
 
